@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException, UnauthorizedExcepti
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { Post } from './shcemas/post.schema'
-import { PostDto, LikeDto } from './dto'
+import { PostDto, PostLikeDto } from './dto'
 import { User } from '@user/schemas/user.schema'
 
 @Injectable()
@@ -42,7 +42,7 @@ export class PostService {
         return await this.postModel.findByIdAndUpdate(id, { content }, { new: true })
     }
 
-    async likePost(likeData: LikeDto): Promise<Post> {
+    async likePost(likeData: PostLikeDto): Promise<Post> {
         const post: Post = await this.get(likeData._id)
         if (!post.likes.includes(likeData.like)) {
             return await this.postModel.findByIdAndUpdate(likeData._id, {
