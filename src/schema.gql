@@ -35,7 +35,7 @@ type PostGQL {
   _id: String
   content: String
   likes: [String!]
-  user: String
+  user: UserGQL
   createdAt: String
   updatedAt: String
 }
@@ -62,8 +62,8 @@ type CommentResponseGQL {
 
 type ChatGql {
   _id: String
-  sender: String
-  reciver: String
+  sender: UserGQL
+  reciver: UserGQL
   hide: [String!]
   createdAt: String
   updatedAt: String
@@ -107,6 +107,7 @@ type Mutation {
   createPost(postData: PostDto!): PostGQL!
   updatePost(content: String!, id: String!): PostGQL!
   deletePost(id: String!): MutationResult!
+  likePost(likeData: PostLikeDto!): PostGQL!
   createComment(commentData: CommentDto!): CommentGQL!
   likeComment(likeData: LikeDto!): CommentGQL!
   deleteComment(id: String!): MutationResult!
@@ -147,6 +148,11 @@ input SigninDto {
 input PostDto {
   content: String!
   user: String!
+}
+
+input PostLikeDto {
+  like: String!
+  _id: String!
 }
 
 input CommentDto {
