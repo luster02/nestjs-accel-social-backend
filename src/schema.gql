@@ -64,6 +64,7 @@ type ChatGql {
   _id: String
   sender: UserGQL
   reciver: UserGQL
+  news: Float
   hide: [String!]
   createdAt: String
   updatedAt: String
