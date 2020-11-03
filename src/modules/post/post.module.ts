@@ -22,6 +22,7 @@ import { CommentModule } from '@comment/comment.module'
         name: 'User',
         useFactory: () => {
           const schema = UserSchema
+          schema.plugin(require('mongoose-autopopulate'))
           return schema
         }
       }
