@@ -13,6 +13,9 @@ export class ChatGql {
     @Field(type => UserGQL, { nullable: true })
     reciver: UserGQL
 
+    @Field({ nullable: true })
+    news: number
+
     @Field(type => [String], { nullable: true })
     hide: string[]
 
@@ -26,6 +29,7 @@ export class ChatGql {
 export interface Chat extends Document {
     readonly sender: string;
     readonly reciver: string;
+    readonly news: number;
     readonly hide: string[];
 }
 
@@ -42,6 +46,10 @@ export const ChatSchema: Schema = new Schema(
             required: true,
             ref: 'User',
             autopupulate: true
+        },
+        news: {
+            type: Number,
+            default: 0
         },
         hide: [{
             type: Schema.Types.ObjectId,
