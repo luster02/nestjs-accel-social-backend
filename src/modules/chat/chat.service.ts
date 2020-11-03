@@ -22,6 +22,8 @@ export class ChatService {
                 $ne: userId
             }
         })
+            .sort({'updatedAt': 'desc'})
+            .exec()
         if (!chat) throw new NotFoundException()
         return chat
     }
@@ -69,7 +71,9 @@ export class ChatService {
 
     async sendMessage(messageData: MessageDto, userId: string): Promise<Message> {
         const message: Message = new this.messageModel({ ...messageData, sender: userId })
-        return await message.save()
+        await message.save()
+        await this.addNewMessageChat(messageData.chat)
+        return message
     }
 
     async hideMessage(id: string, userId: string): Promise<void> {
@@ -86,6 +90,12 @@ export class ChatService {
         const message: Message = await this.messageModel.findById(id)
         if (message.sender !== userId) throw new UnauthorizedException()
         await message.remove()
+    }
+
+    private async addNewMessageChat(id: string): Promise<Chat> {
+        const chat: Chat = await this.chatModel.findById(id)
+        chat.set('news', (chat.news + 1))
+        return await chat.save()
     }
 
     private async deleteAllChatMessages(id: string): Promise<void> {
