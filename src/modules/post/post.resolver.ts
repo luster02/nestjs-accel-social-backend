@@ -2,7 +2,7 @@ import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { PostService } from './post.service'
 import { PostGQL, Post } from './shcemas/post.schema'
-import { PostDto } from './dto/post.dto'
+import { PostDto, PostLikeDto } from './dto'
 import { GqlAuthGuard } from '@auth/guards/graphql.guard'
 import { IJwtPayload } from '@auth/interfaces';
 import { CurrentUser } from '@auth/decorators/user.decorator';
@@ -63,5 +63,12 @@ export class PostResolver {
         await this._postService.delete(id, user.id)
         await this._commentService.deleteAllPostComments(id)
         return { success: true }
+    }
+
+    @Mutation(returns => PostGQL)
+    async likePost(
+        @Args('likeData') likeData: PostLikeDto
+    ): Promise<Post> {
+        return await this._postService.likePost(likeData)
     }
 }
