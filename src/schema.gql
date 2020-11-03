@@ -1,0 +1,181 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type UserGQL {
+  _id: String
+  username: String
+  email: String
+  contacts: [UserGQL!]
+  requests: [UserGQL!]
+  createdAt: String
+  updatedAt: String
+}
+
+type UserDetailsGQL {
+  name: String!
+  lastname: String!
+  bio: String!
+  ocupation: String!
+  user: String!
+}
+
+type MutationResult {
+  success: Boolean
+  error: Boolean
+}
+
+type AuthResult {
+  success: Boolean
+  error: Boolean
+  token: String!
+}
+
+type PostGQL {
+  _id: String
+  content: String
+  likes: [String!]
+  user: String
+  createdAt: String
+  updatedAt: String
+}
+
+type CommentGQL {
+  _id: String
+  content: String
+  likes: [String!]
+  post: String
+  user: UserGQL
+  createdAt: String
+  updatedAt: String
+}
+
+type CommentResponseGQL {
+  _id: String
+  content: String
+  likes: [String!]
+  comment: String
+  user: UserGQL
+  createdAt: String
+  updatedAt: String
+}
+
+type ChatGql {
+  _id: String
+  sender: String
+  reciver: String
+  hide: [String!]
+  createdAt: String
+  updatedAt: String
+}
+
+type MessageGql {
+  _id: String
+  content: String
+  chat: String
+  sender: UserGQL
+  hide: [String!]
+  createdAt: String
+  updatedAt: String
+}
+
+type Query {
+  getUserDetails(id: String!): UserDetailsGQL!
+  currentUserDetails: UserDetailsGQL!
+  getUser(id: String!): UserGQL!
+  getCurentUser: UserGQL!
+  post(id: String!): PostGQL!
+  getUserFeed: [PostGQL!]!
+  getPostByUser(id: String!): [PostGQL!]!
+  comment(id: String!): CommentGQL!
+  comments(id: String!): [CommentGQL!]!
+  commentResponse(id: String!): CommentResponseGQL!
+  commentResponses(id: String!): [CommentResponseGQL!]!
+  messages(id: String!): [MessageGql!]!
+  chat(id: String!): ChatGql!
+  chats: [ChatGql!]!
+}
+
+type Mutation {
+  createUserDetails(detailsData: UserDetailsDto!): UserDetailsGQL!
+  updateUserDetails(detailsData: UserDetailsDto!): UserDetailsGQL!
+  sendRequest(connectionData: ConnectionDto!): UserGQL!
+  confirmRequest(connectionData: ConnectionDto!): UserGQL!
+  declineRequest(connectionData: ConnectionDto!): UserGQL!
+  signup(userData: SignupDto!): MutationResult!
+  signin(userData: SigninDto!): AuthResult!
+  createPost(postData: PostDto!): PostGQL!
+  updatePost(content: String!, id: String!): PostGQL!
+  deletePost(id: String!): MutationResult!
+  createComment(commentData: CommentDto!): CommentGQL!
+  likeComment(likeData: LikeDto!): CommentGQL!
+  deleteComment(id: String!): MutationResult!
+  createCommentReponse(responseData: CommentResponseDto!): CommentResponseGQL!
+  likeCommentResponse(likeData: LikeDto!): CommentResponseGQL!
+  deleteCommentResponse(id: String!): MutationResult!
+  sendMessage(messageData: MessageDto!): MessageGql!
+  hideMessage(id: String!): MutationResult!
+  deleteMessage(id: String!): MutationResult!
+  createChat(chatData: ChatDto!): ChatGql!
+  deleteChat(id: String!): MutationResult!
+}
+
+input UserDetailsDto {
+  name: String!
+  lastname: String!
+  bio: String!
+  ocupation: String!
+  user: String!
+}
+
+input ConnectionDto {
+  user_id: String!
+  requesting_user_id: String!
+}
+
+input SignupDto {
+  username: String!
+  email: String!
+  password: String!
+}
+
+input SigninDto {
+  username: String!
+  password: String!
+}
+
+input PostDto {
+  content: String!
+  user: String!
+}
+
+input CommentDto {
+  content: String!
+  post: String!
+  user: String!
+}
+
+input LikeDto {
+  like: String!
+  _id: String!
+}
+
+input CommentResponseDto {
+  content: String!
+  comment: String!
+  user: String!
+}
+
+input MessageDto {
+  content: String!
+  chat: String!
+}
+
+input ChatDto {
+  sender: String!
+  reciver: String!
+}
+
+type Subscription {
+  messageSubscription(id: String!): MessageGql!
+}
