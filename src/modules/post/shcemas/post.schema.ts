@@ -1,5 +1,6 @@
 import { Schema, Document } from 'mongoose';
 import { ObjectType, Field } from '@nestjs/graphql'
+import { UserGQL } from '@user/schemas/user.schema'
 
 @ObjectType()
 export class PostGQL {
@@ -12,8 +13,8 @@ export class PostGQL {
     @Field(type => [String], { nullable: true })
     likes: string[];
 
-    @Field({ nullable: true })
-    user: string;
+    @Field(type => UserGQL, { nullable: true })
+    user: UserGQL;
 
     @Field({ nullable: true })
     createdAt: string

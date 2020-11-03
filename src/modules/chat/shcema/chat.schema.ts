@@ -1,16 +1,17 @@
 import { Schema, Document } from 'mongoose';
 import { ObjectType, Field } from '@nestjs/graphql'
+import { UserGQL } from '@user/schemas/user.schema'
 
 @ObjectType()
 export class ChatGql {
     @Field({ nullable: true })
     _id: string
 
-    @Field({ nullable: true })
-    sender: string
+    @Field(type => UserGQL, { nullable: true })
+    sender: UserGQL
 
-    @Field({ nullable: true })
-    reciver: string
+    @Field(type => UserGQL, { nullable: true })
+    reciver: UserGQL
 
     @Field(type => [String], { nullable: true })
     hide: string[]
@@ -34,6 +35,7 @@ export const ChatSchema: Schema = new Schema(
             type: Schema.Types.ObjectId,
             required: true,
             ref: 'User',
+            autopupulate: true
         },
         reciver: {
             type: Schema.Types.ObjectId,
