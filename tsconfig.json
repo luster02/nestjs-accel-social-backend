@@ -12,6 +12,7 @@
     "baseUrl": "./",
     "paths":{
       "@config/*":["src/config/*"],
+      "@cloudinary/*": ["src/cloudinary/*"],
       "@auth/*":["src/modules/auth/*"],
       "@gql/*":["src/gql/*"],
       "@post/*": ["src/modules/post/*"],
