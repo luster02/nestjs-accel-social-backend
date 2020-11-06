@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config'
 import { MongooseModule } from '@nestjs/mongoose'
 import { JwtStrategy } from './strategies/jwt.strategy'
 import { UserSchema } from '@user/schemas/user.schema'
+import { UserDetailsSchema } from '@user/schemas/user.detail.shcema'
 import { AuthService } from './auth.service';
 import { AuthResolver } from './auth.resolver'
 import { ConfigModule } from '@config/config.module';
@@ -16,6 +17,10 @@ import { IEnvironmentVariables } from '@config/config.interface'
             {
                 name: 'User',
                 schema: UserSchema
+            },
+            {
+                name: 'UserDetails',
+                schema: UserDetailsSchema
             }
         ]),
         PassportModule.register({
