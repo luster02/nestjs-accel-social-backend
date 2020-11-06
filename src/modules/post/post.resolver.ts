@@ -2,12 +2,13 @@ import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { PostService } from './post.service'
 import { PostGQL, Post } from './shcemas/post.schema'
-import { PostDto, PostLikeDto } from './dto'
+import { PostDto, PostLikeDto, PostUploadDto } from './dto'
 import { GqlAuthGuard } from '@auth/guards/graphql.guard'
 import { IJwtPayload } from '@auth/interfaces';
 import { CurrentUser } from '@auth/decorators/user.decorator';
 import { MutationResult } from '@gql/interfaces/mutation-result.interface'
 import { CommentService } from '@comment/comment.service'
+import { FileUpload, GraphQLUpload } from '@gql/scalars/upload.scalar'
 
 @Resolver(of => PostGQL)
 @UseGuards(GqlAuthGuard)
@@ -71,4 +72,21 @@ export class PostResolver {
     ): Promise<Post> {
         return await this._postService.likePost(likeData)
     }
+
+    @Mutation(returns => PostGQL)
+    async uploadPostFile(
+        @Args({ name: 'file', type: () => GraphQLUpload }) file: FileUpload,
+        @Args('uploadData') uploadData: PostUploadDto
+    ): Promise<Post> {
+        return await this._postService.uploadFile(file, uploadData)
+    }
+
+    @Mutation(returns => PostGQL)
+    async deletePostFile(
+        @Args('id') id: string,
+        @Args('public_id') public_id: string
+    ): Promise<Post> {
+        return await this._postService.deleteFile(id, public_id)
+    }
+
 }
