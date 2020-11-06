@@ -10,6 +10,7 @@ import { GqlModule } from './gql/gql.module';
 import { PostModule } from './modules/post/post.module';
 import { CommentModule } from './modules/comment/comment.module';
 import { ChatModule } from './modules/chat/chat.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { ChatModule } from './modules/chat/chat.module';
     GqlModule,
     PostModule,
     CommentModule,
-    ChatModule
+    ChatModule,
+    CloudinaryModule
   ],
   controllers: [AppController],
 })
