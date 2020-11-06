@@ -1,6 +1,6 @@
 import { Resolver, Args, Mutation } from '@nestjs/graphql'
 import { AuthService } from './auth.service'
-import { AuthResult, MutationResult } from './interfaces'
+import { AuthResult } from './interfaces'
 import { SigninDto, SignupDto } from './dto'
 import { UserGQL } from '@user/schemas/user.schema'
 
@@ -8,10 +8,10 @@ import { UserGQL } from '@user/schemas/user.schema'
 export class AuthResolver {
     constructor(private readonly _authService: AuthService) { }
 
-    @Mutation(returns => MutationResult)
-    async signup(@Args('userData') userData: SignupDto): Promise<MutationResult> {
-        await this._authService.signup(userData)
-        return { success: true }
+    @Mutation(returns => AuthResult)
+    async signup(@Args('userData') userData: SignupDto): Promise<AuthResult> {
+        const token = await this._authService.signup(userData)
+        return { token, success: true }
     }
 
     @Mutation(returns => AuthResult)
