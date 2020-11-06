@@ -3,15 +3,26 @@ import { ObjectType, Field } from '@nestjs/graphql'
 
 @ObjectType()
 export class UserDetailsGQL {
-    @Field()
+    @Field({ nullable: true })
     name: string
-    @Field()
+    @Field({ nullable: true })
     lastname: string
-    @Field()
+    @Field({ nullable: true })
     bio: string
-    @Field()
+
+    @Field({ nullable: true })
     ocupation: string
-    @Field()
+
+    @Field({ nullable: true })
+    public_id: string
+
+    @Field({ nullable: true })
+    secure_url: string
+
+    @Field({ nullable: true })
+    foler_name: string
+
+    @Field({ nullable: true })
     user: string
 }
 
@@ -20,6 +31,9 @@ export interface UserDetails extends Document {
     readonly lastname: string
     readonly bio: string
     readonly ocupation: string
+    readonly public_id: string
+    readonly secure_url: string
+    readonly foler_name: string
     readonly user: string
 }
 
@@ -36,6 +50,15 @@ export const UserDetailsSchema: Schema = new Schema(
         },
         ocupation: {
             type: String,
+        },
+        public_id: {
+            type: String
+        },
+        secure_url: {
+            type: String
+        },
+        foler_name: {
+            type: String
         },
         user: {
             type: Schema.Types.ObjectId,
