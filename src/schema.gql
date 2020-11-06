@@ -13,11 +13,14 @@ type UserGQL {
 }
 
 type UserDetailsGQL {
-  name: String!
-  lastname: String!
-  bio: String!
-  ocupation: String!
-  user: String!
+  name: String
+  lastname: String
+  bio: String
+  ocupation: String
+  public_id: String
+  secure_url: String
+  foler_name: String
+  user: String
 }
 
 type MutationResult {
@@ -35,6 +38,8 @@ type PostGQL {
   _id: String
   content: String
   likes: [String!]
+  public_id: String
+  secure_url: String
   user: UserGQL
   createdAt: String
   updatedAt: String
@@ -100,15 +105,17 @@ type Query {
 type Mutation {
   createUserDetails(detailsData: UserDetailsDto!): UserDetailsGQL!
   updateUserDetails(detailsData: UserDetailsDto!): UserDetailsGQL!
+  uploadUserFile(uploadData: UserUploadDto!, file: Upload!): UserDetailsGQL!
   sendRequest(connectionData: ConnectionDto!): UserGQL!
   confirmRequest(connectionData: ConnectionDto!): UserGQL!
   declineRequest(connectionData: ConnectionDto!): UserGQL!
-  signup(userData: SignupDto!): MutationResult!
+  signup(userData: SignupDto!): AuthResult!
   signin(userData: SigninDto!): AuthResult!
   createPost(postData: PostDto!): PostGQL!
   updatePost(content: String!, id: String!): PostGQL!
   deletePost(id: String!): MutationResult!
   likePost(likeData: PostLikeDto!): PostGQL!
+  uploadPostFile(uploadData: PostUploadDto!, file: Upload!): PostGQL!
   createComment(commentData: CommentDto!): CommentGQL!
   likeComment(likeData: LikeDto!): CommentGQL!
   deleteComment(id: String!): MutationResult!
@@ -129,6 +136,14 @@ input UserDetailsDto {
   ocupation: String!
   user: String!
 }
+
+input UserUploadDto {
+  folderName: String!
+  userId: String!
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 input ConnectionDto {
   user_id: String!
@@ -154,6 +169,11 @@ input PostDto {
 input PostLikeDto {
   like: String!
   _id: String!
+}
+
+input PostUploadDto {
+  folderName: String!
+  postId: String!
 }
 
 input CommentDto {
