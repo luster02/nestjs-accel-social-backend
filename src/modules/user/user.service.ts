@@ -1,9 +1,12 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { User } from './schemas/user.schema'
 import { UserDetails } from './schemas/user.detail.shcema'
-import { UserDetailsDto, ConnectionDto } from './dto'
+import { UserDetailsDto, ConnectionDto, UserUploadDto } from './dto'
+import { CloudinaryService } from '@cloudinary/cloudinary.service'
+import { UploadResponse } from '@cloudinary/interfaces/upload-response.interface'
+import { FileUpload } from '@gql/scalars/upload.scalar'
 
 @Injectable()
 export class UserService {
@@ -11,7 +14,9 @@ export class UserService {
         @InjectModel('User')
         private readonly userModel: Model<User>,
         @InjectModel('UserDetails')
-        private readonly userDetailsModel: Model<UserDetails>
+        private readonly userDetailsModel: Model<UserDetails>,
+        @Inject(CloudinaryService)
+        private readonly _cloudinaryService: CloudinaryService
     ) { }
 
     async get(id: string): Promise<User> {
@@ -69,6 +74,21 @@ export class UserService {
         if (!detailsData.user) throw new BadRequestException('user id must be sent');
         const details = await this.userDetailsModel.findByIdAndUpdate(detailsData.user, detailsData, { new: true })
         return details
+    }
+
+    async uploadFile(fileInput: FileUpload, uploadData: UserUploadDto): Promise<UserDetails> {
+        const details: UserDetails = await this.userDetailsModel.findById(uploadData.userId)
+        if (details.secure_url) throw new BadRequestException('you must be delete last file')
+        const { public_id, secure_url }: UploadResponse = await this._cloudinaryService.upload_stream(fileInput, uploadData.folderName)
+        return await this.userDetailsModel.findByIdAndUpdate(uploadData.userId, { public_id, secure_url }, { new: true })
+    }
+
+    async deleteFile(id: string, public_id: string): Promise<UserDetails> {
+        await this._cloudinaryService.destroy(public_id)
+        return await this.userDetailsModel.findByIdAndUpdate(id, {
+            public_id: null,
+            secure_url: null
+        })
     }
 
     async delete(id: string): Promise<void> {
