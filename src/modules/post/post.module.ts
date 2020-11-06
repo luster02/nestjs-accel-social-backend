@@ -5,10 +5,12 @@ import { PostSchema } from './shcemas/post.schema'
 import { PostResolver } from './post.resolver'
 import { UserSchema } from '@user/schemas/user.schema'
 import { CommentModule } from '@comment/comment.module'
+import { CloudinaryModule } from '@cloudinary/cloudinary.module'
 
 @Module({
   imports: [
     CommentModule,
+    CloudinaryModule,
     MongooseModule.forFeatureAsync([
       {
         name: 'Post',

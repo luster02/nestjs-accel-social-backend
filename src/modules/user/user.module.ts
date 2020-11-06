@@ -4,9 +4,11 @@ import { UserService } from './user.service';
 import { UserSchema } from './schemas/user.schema'
 import { UserDetailsSchema } from './schemas/user.detail.shcema'
 import { UserDetailsResolver, UserResolver } from './resolvers'
+import { CloudinaryModule } from '@cloudinary/cloudinary.module'
 
 @Module({
   imports: [
+    CloudinaryModule,
     MongooseModule.forFeatureAsync([
       {
         name: 'User',
