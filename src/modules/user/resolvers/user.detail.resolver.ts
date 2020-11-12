@@ -7,7 +7,6 @@ import { GqlAuthGuard } from '@auth/guards/graphql.guard'
 import { IJwtPayload } from '@auth/interfaces'
 import { CurrentUser } from '@auth/decorators/user.decorator'
 import { FileUpload, GraphQLUpload } from '@gql/scalars/upload.scalar'
-import { User } from '@user/schemas/user.schema';
 
 @Resolver(of => UserDetailsGQL)
 @UseGuards(GqlAuthGuard)
@@ -28,13 +27,6 @@ export class UserDetailsResolver {
         @CurrentUser() user: IJwtPayload
     ): Promise<UserDetails> {
         return this._userService.getDetails(user.id)
-    }
-
-    @Mutation(returns => UserDetailsGQL)
-    async createUserDetails(
-        @Args('detailsData') detailsData: UserDetailsDto
-    ): Promise<UserDetails> {
-        return await this._userService.createDetails(detailsData)
     }
 
     @Mutation(returns => UserDetailsGQL)
