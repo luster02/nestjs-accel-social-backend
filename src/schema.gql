@@ -103,9 +103,9 @@ type Query {
 }
 
 type Mutation {
-  createUserDetails(detailsData: UserDetailsDto!): UserDetailsGQL!
   updateUserDetails(detailsData: UserDetailsDto!): UserDetailsGQL!
   uploadUserFile(uploadData: UserUploadDto!, file: Upload!): UserDetailsGQL!
+  deleteUserFile(public_id: String!, id: String!): UserDetailsGQL!
   sendRequest(connectionData: ConnectionDto!): UserGQL!
   confirmRequest(connectionData: ConnectionDto!): UserGQL!
   declineRequest(connectionData: ConnectionDto!): UserGQL!
@@ -116,6 +116,7 @@ type Mutation {
   deletePost(id: String!): MutationResult!
   likePost(likeData: PostLikeDto!): PostGQL!
   uploadPostFile(uploadData: PostUploadDto!, file: Upload!): PostGQL!
+  deletePostFile(public_id: String!, id: String!): PostGQL!
   createComment(commentData: CommentDto!): CommentGQL!
   likeComment(likeData: LikeDto!): CommentGQL!
   deleteComment(id: String!): MutationResult!
